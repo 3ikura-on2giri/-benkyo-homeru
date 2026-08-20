@@ -1,158 +1,128 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#fff7fb" />
-  <title>えらいボタン</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef5ff">
+  <title>クラゲにほめられる</title>
   <style>
-    :root {
-      --bg: #fff7fb;
-      --card: rgba(255,255,255,.92);
-      --text: #2f2630;
-      --sub: #776a75;
-      --study: #ff7eb6;
-      --study2: #ff5fa2;
-      --rest: #8db8ff;
-      --rest2: #709ef0;
-      --shadow: 0 14px 40px rgba(83, 54, 76, .14);
-    }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       min-height: 100svh;
-      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
-      background:
-        radial-gradient(circle at 20% 0%, #ffe0ef 0, transparent 34%),
-        radial-gradient(circle at 100% 100%, #e4efff 0, transparent 38%),
-        var(--bg);
-      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+      background: linear-gradient(#eef6ff, #f8fbff);
+      color: #17233b;
       display: grid;
       place-items: center;
-      padding: 24px;
+      padding: 20px;
     }
-
     main {
       width: min(520px, 100%);
-      background: var(--card);
-      border-radius: 28px;
-      padding: 28px 22px 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.8);
       text-align: center;
-      backdrop-filter: blur(8px);
     }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(28px, 7vw, 40px);
-      letter-spacing: .02em;
+    .character {
+      width: min(260px, 70vw);
+      max-height: 280px;
+      object-fit: contain;
+      margin: 0 auto 8px;
+      display: block;
+      animation: float 3s ease-in-out infinite;
     }
-
-    .hint {
-      color: var(--sub);
-      font-size: 14px;
-      margin: 0 0 24px;
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
     }
-
-    .buttons {
-      display: grid;
-      gap: 14px;
-    }
-
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 20px;
-      color: white;
-      font-weight: 800;
-      font-size: 22px;
-      padding: 20px 16px;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0,0,0,.10);
-      transition: transform .08s ease, filter .15s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    button:active {
-      transform: scale(.98);
-    }
-
-    #studyBtn {
-      background: linear-gradient(180deg, var(--study), var(--study2));
-    }
-
-    #restBtn {
-      background: linear-gradient(180deg, var(--rest), var(--rest2));
-    }
-
-    #message {
-      min-height: 110px;
-      margin: 24px 0 8px;
+    .bubble {
+      position: relative;
+      background: white;
+      border: 3px solid #17233b;
+      border-radius: 24px;
+      padding: 20px 18px;
+      min-height: 105px;
       display: grid;
       place-items: center;
-      padding: 18px;
-      border-radius: 22px;
-      background: #fff;
-      font-size: clamp(22px, 6vw, 31px);
+      font-size: clamp(22px, 6vw, 30px);
       font-weight: 800;
       line-height: 1.45;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.04);
+      box-shadow: 0 10px 25px rgba(25, 48, 90, .12);
+      margin-bottom: 18px;
     }
-
+    .bubble::before {
+      content: "";
+      position: absolute;
+      top: -17px;
+      left: 50%;
+      width: 26px;
+      height: 26px;
+      background: white;
+      border-left: 3px solid #17233b;
+      border-top: 3px solid #17233b;
+      transform: translateX(-50%) rotate(45deg);
+    }
+    .buttons {
+      display: grid;
+      gap: 12px;
+    }
+    button {
+      border: 0;
+      border-radius: 20px;
+      padding: 19px 16px;
+      font-size: 21px;
+      font-weight: 800;
+      color: white;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    }
+    button:active { transform: scale(.98); }
+    #studyBtn { background: #1658e8; }
+    #restBtn { background: #7186ad; }
     #count {
-      color: var(--sub);
+      margin-top: 14px;
       font-size: 13px;
-      margin-top: 10px;
-    }
-
-    .tiny {
-      margin-top: 18px;
-      color: #9a8d97;
-      font-size: 12px;
+      color: #60708e;
     }
   </style>
 </head>
 <body>
   <main>
-    <h1>えらいボタン</h1>
-    <p class="hint">やったら押す。休むなら休む。それだけ。</p>
+    <img class="character" src="character.png" alt="青いクラゲのキャラクター">
+
+    <div class="bubble" id="message" aria-live="polite">
+      勉強したら教えてね
+    </div>
 
     <div class="buttons">
       <button id="studyBtn">勉強した！</button>
       <button id="restBtn">休憩する</button>
     </div>
 
-    <div id="message" aria-live="polite">ここに出るよ</div>
     <div id="count">今日の「勉強した！」：0回</div>
-
-    <div class="tiny">記録はこの端末のブラウザ内だけに保存されます。</div>
   </main>
 
   <script>
     const studyMessages = [
       "えらい！！！勉強したのすごい！",
-      "すごい。ちゃんと勉強した。えらい！",
-      "勉強したの偉すぎる。よくやった！",
-      "ちゃんとやったのすごい！！",
-      "えらいえらい。今日も勉強できた！",
-      "すごい！！勉強した時点でもう偉い。",
-      "やったじゃん！勉強したの本当にえらい！",
-      "勉強した！すごい！それで十分！",
-      "ちゃんと進んだ。えらい！！",
-      "よくやった！！勉強できたのすごい！"
+      "すごい！！ちゃんと勉強した！",
+      "えらすぎる！！よくやった！",
+      "勉強したの！？すごい！！",
+      "ちゃんとやった！えらい！！",
+      "すごいすごい！！今日も進んだ！",
+      "えらい！！勉強した時点でもうすごい！",
+      "やったじゃん！！本当にえらい！",
+      "勉強した！すごい！！",
+      "よくできました！！えらい！"
     ];
 
     const restMessages = [
       "うん、休んでね。",
       "ゆっくり休んでね。",
-      "休憩してきて。大丈夫。",
-      "ちゃんと休んでね。",
-      "いってらっしゃい。ゆっくり休憩してきて。",
+      "休憩してきてね。",
+      "ちゃんと休んでおいで。",
+      "いってらっしゃい。ゆっくりしてきてね。",
       "うん、今は休憩。",
-      "休んでおいで。"
+      "のんびり休んでね。"
     ];
 
     const message = document.getElementById("message");
@@ -165,32 +135,32 @@
       return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
     };
 
-    function loadCount() {
-      const savedDate = localStorage.getItem("erai_date");
-      if (savedDate !== todayKey()) {
-        localStorage.setItem("erai_date", todayKey());
-        localStorage.setItem("erai_count", "0");
-      }
-      return Number(localStorage.getItem("erai_count") || 0);
-    }
-
-    function updateCount(n) {
-      count.textContent = `今日の「勉強した！」：${n}回`;
-    }
-
     function randomOf(arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
+    function loadCount() {
+      const savedDate = localStorage.getItem("jelly_date");
+      if (savedDate !== todayKey()) {
+        localStorage.setItem("jelly_date", todayKey());
+        localStorage.setItem("jelly_count", "0");
+      }
+      return Number(localStorage.getItem("jelly_count") || 0);
+    }
+
+    function showCount(n) {
+      count.textContent = `今日の「勉強した！」：${n}回`;
+    }
+
     let n = loadCount();
-    updateCount(n);
+    showCount(n);
 
     studyBtn.addEventListener("click", () => {
       message.textContent = randomOf(studyMessages);
-      n += 1;
-      localStorage.setItem("erai_date", todayKey());
-      localStorage.setItem("erai_count", String(n));
-      updateCount(n);
+      n++;
+      localStorage.setItem("jelly_date", todayKey());
+      localStorage.setItem("jelly_count", String(n));
+      showCount(n);
     });
 
     restBtn.addEventListener("click", () => {
